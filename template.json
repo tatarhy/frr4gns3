@@ -1,0 +1,45 @@
+{
+  "builders": [
+    {
+      "type": "qemu",
+      "disk_size": "{{ user `disk_size` }}",
+      "iso_checksum_url": "{{ user `iso_checksum_url` }}",
+      "iso_checksum_type": "{{ user `iso_checksum_type` }}",
+      "iso_urls": "{{ user `iso_url` }}",
+      "disk_image": true,
+      "headless": true,
+      "use_default_display": true,
+      "output_directory": "output-{{ user `vm_name` }}",
+      "ssh_password": "{{ user `ssh_password` }}",
+      "ssh_username": "{{ user `ssh_username` }}",
+      "ssh_wait_timeout": "5m",
+      "shutdown_command": "sudo poweroff",
+      "vm_name": "{{ user `vm_name` }}",
+      "qemuargs": [
+        ["-m", "{{ user `memory` }}"],
+        ["-smp", "cpus={{ user `cpus`}}"],
+        ["-cdrom", "cloud.iso"],
+        ["-serial", "mon:stdio"]
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "/bin/bash -x '{{.Path}}'",
+      "script": "scripts/install.sh"
+    }
+  ],
+  "variables": {
+    "iso_checksum_url": "http://cloud-images.ubuntu.com/bionic/current/SHA256SUMS",
+    "iso_checksum_type": "sha256",
+    "iso_url": "http://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img",
+    "cpus": "1",
+    "disk_size": "8192",
+    "memory": "512",
+    "ssh_password": "ubuntu",
+    "ssh_username": "ubuntu",
+    "version": "0.1.0",
+    "vm_name": "ubuntu1604"
+  }
+}

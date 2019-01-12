@@ -6,15 +6,16 @@
       "iso_checksum_url": "{{ user `iso_checksum_url` }}",
       "iso_checksum_type": "{{ user `iso_checksum_type` }}",
       "iso_urls": "{{ user `iso_url` }}",
+      "disk_compression": true,
       "disk_image": true,
       "headless": true,
       "use_default_display": true,
-      "output_directory": "output-{{ user `vm_name` }}",
+      "output_directory": "output",
       "ssh_password": "{{ user `ssh_password` }}",
       "ssh_username": "{{ user `ssh_username` }}",
       "ssh_wait_timeout": "5m",
       "shutdown_command": "sudo poweroff",
-      "vm_name": "{{ user `vm_name` }}",
+      "vm_name": "frr-{{ user `frr_version` }}-{{ user `build_version` }}.qcow2",
       "qemuargs": [
         ["-m", "{{ user `memory` }}"],
         ["-smp", "cpus={{ user `cpus`}}"],
@@ -39,7 +40,7 @@
     "memory": "512",
     "ssh_password": "ubuntu",
     "ssh_username": "ubuntu",
-    "version": "0.1.0",
-    "vm_name": "ubuntu1604"
+    "frr_version": "6.0",
+    "build_version": "1"
   }
 }

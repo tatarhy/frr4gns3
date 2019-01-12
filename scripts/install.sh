@@ -1,10 +1,12 @@
 #!/bin/bash
 
-curl -LOs https://github.com/FRRouting/frr/releases/download/frr-6.0/frr_6.0-1.ubuntu18.04+1_amd64.deb
 sudo apt-get -q update
+curl -LOs https://github.com/FRRouting/frr/releases/download/frr-6.0/frr_6.0-1.ubuntu18.04+1_amd64.deb
 sudo dpkg -i frr_6.0-1.ubuntu18.04+1_amd64.deb
 sudo apt-get install -fyq
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq linux-modules-extra-$(uname -r)
+sudo apt-get clean
+rm frr_6.0-1.ubuntu18.04+1_amd64.deb
 
 sudo gpasswd -a $USER frrvty
 sudo sed -i 's/=no/=yes/' /etc/frr/daemons

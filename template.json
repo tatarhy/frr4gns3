@@ -27,8 +27,11 @@
   "provisioners": [
     {
       "type": "shell",
-      "execute_command": "/bin/bash -x '{{.Path}}'",
-      "script": "scripts/install.sh"
+      "script": "scripts/install.sh",
+      "environment_vars": [
+        "FRR_VERSION={{ user `frr_version` }}",
+        "FRR_PACKAGE_VERSION={{ user `frr_package_version` }}"
+      ]
     }
   ],
   "variables": {
@@ -40,7 +43,8 @@
     "memory": "512",
     "ssh_password": "ubuntu",
     "ssh_username": "ubuntu",
-    "frr_version": "6.0",
+    "frr_version": "6.0.2",
+    "frr_package_version": "0.ubuntu18.04.1",
     "build_version": "1"
   }
 }

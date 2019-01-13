@@ -1,12 +1,22 @@
 #!/bin/bash
 
+set -Ceux
+
+base_url="https://github.com/FRRouting/frr/releases/download/frr-${FRR_VERSION}"
+frr_pkgs=(
+  "frr_${FRR_VERSION}-${FRR_PACKAGE_VERSION}_amd64.deb"
+  "frr-pythontools_${FRR_VERSION}-${FRR_PACKAGE_VERSION}_all.deb"
+  "frr-doc_${FRR_VERSION}-${FRR_PACKAGE_VERSION}_all.deb"
+  "frr-snmp_${FRR_VERSION}-${FRR_PACKAGE_VERSION}_amd64.deb"
+)
+
+export DEBIAN_FRONTEND=noninteractive
 sudo apt-get -q update
-curl -LOs https://github.com/FRRouting/frr/releases/download/frr-6.0/frr_6.0-1.ubuntu18.04+1_amd64.deb
-sudo dpkg -i frr_6.0-1.ubuntu18.04+1_amd64.deb
-sudo apt-get install -fyq
-sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq linux-modules-extra-$(uname -r)
+printf "%s\n" "${frr_pkgs[@]}" | xargs -I{} curl -LOs $base_url/{}
+printf "%s\n" "${frr_pkgs[@]}" | xargs -I{} sudo -E apt-get install -yq ./{}
+sudo -E apt-get install -yq linux-modules-extra-$(uname -r)
 sudo apt-get clean
-rm frr_6.0-1.ubuntu18.04+1_amd64.deb
+rm ${frr_pkgs[@]}
 
 sudo gpasswd -a $USER frrvty
 sudo sed -i 's/=no/=yes/' /etc/frr/daemons

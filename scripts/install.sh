@@ -18,6 +18,10 @@ sudo -E apt-get install -yq linux-modules-extra-$(uname -r)
 sudo apt-get clean
 rm ${frr_pkgs[@]}
 
+# Use traditional ifname such as eth0
+sudo sed -i 's/^GRUB_CMDLINE_LINUX=""$/GRUB_CMDLINE_LINUX="net.ifnames=0 biosdevname=0"/' /etc/default/grub
+sudo update-grub
+
 sudo gpasswd -a $USER frrvty
 sudo sed -i 's/=no/=yes/' /etc/frr/daemons
 

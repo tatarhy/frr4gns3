@@ -11,6 +11,7 @@
       "headless": true,
       "use_default_display": true,
       "output_directory": "output",
+      "http_directory": "http",
       "ssh_password": "{{ user `ssh_password` }}",
       "ssh_username": "{{ user `ssh_username` }}",
       "ssh_wait_timeout": "5m",
@@ -18,8 +19,8 @@
       "vm_name": "frr-{{ user `frr_version` }}-{{ user `build_version` }}.qcow2",
       "qemuargs": [
         ["-m", "{{ user `memory` }}"],
-        ["-smp", "cpus={{ user `cpus`}}"],
-        ["-cdrom", "cloud.iso"],
+        ["-smp", "cpus={{ user `cpus` }}"],
+        ["-smbios", "type=1,serial=ds=nocloud-net;s=http://{{ .HTTPIP }}:{{ .HTTPPort }}/"],
         ["-serial", "mon:stdio"]
       ]
     }

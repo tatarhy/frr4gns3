@@ -1,5 +1,6 @@
 #cloud-config
-password: ubuntu
+user: frruser
+password: frruser
 ssh_pwauth: true
 sudo: ALL=(ALL) NOPASSWD:ALL
 chpasswd:

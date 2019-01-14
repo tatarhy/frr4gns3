@@ -41,8 +41,8 @@
     "cpus": "1",
     "disk_size": "8192",
     "memory": "512",
-    "ssh_password": "ubuntu",
-    "ssh_username": "ubuntu",
+    "ssh_password": "frruser",
+    "ssh_username": "frruser",
     "frr_version": "6.0.2",
     "frr_package_version": "0.ubuntu18.04.1",
     "build_version": "1"

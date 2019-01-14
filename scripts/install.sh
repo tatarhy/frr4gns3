@@ -22,7 +22,7 @@ rm ${frr_pkgs[@]}
 sudo sed -i 's/^GRUB_CMDLINE_LINUX=""$/GRUB_CMDLINE_LINUX="net.ifnames=0 biosdevname=0"/' /etc/default/grub
 sudo update-grub
 
-sudo gpasswd -a $USER frrvty
+sudo usermod -aG frr,frrvty $USER
 sudo sed -i 's/=no/=yes/' /etc/frr/daemons
 
 cat <<EOF | sudo tee /etc/modules

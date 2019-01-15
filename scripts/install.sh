@@ -12,9 +12,17 @@ frr_pkgs=(
 
 export DEBIAN_FRONTEND=noninteractive
 sudo apt-get -q update
+
+# Change kernel flavor
+old_kernel_modules="linux-modules-$(uname -r)"
+new_kernel_modules=$(apt-cache -n search linux-modules-extra-.*-generic | tail -1 | awk '{print $1}')
+sudo -E apt-get install -yq ${new_kernel_modules}
+sudo -E apt-get purge -yq linux-image-kvm ${old_kernel_modules}
+
+# Install frr packages
 printf "%s\n" "${frr_pkgs[@]}" | xargs -I{} curl -LOs $base_url/{}
 printf "%s\n" "${frr_pkgs[@]}" | xargs -I{} sudo -E apt-get install -yq ./{}
-sudo -E apt-get install -yq linux-modules-extra-$(uname -r)
+
 sudo apt-get clean
 rm ${frr_pkgs[@]}
 

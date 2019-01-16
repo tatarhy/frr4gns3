@@ -28,6 +28,7 @@ rm ${frr_pkgs[@]}
 
 # Use traditional ifname such as eth0
 sudo sed -i 's/^GRUB_CMDLINE_LINUX=""$/GRUB_CMDLINE_LINUX="net.ifnames=0 biosdevname=0"/' /etc/default/grub
+echo 'GRUB_DISABLE_OS_PROBER=true' | sudo tee -a /etc/default/grub
 sudo update-grub
 
 sudo usermod -aG frr,frrvty $USER

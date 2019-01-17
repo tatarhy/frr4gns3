@@ -26,6 +26,8 @@ printf "%s\n" "${frr_pkgs[@]}" | xargs -I{} sudo -E apt-get install -yq ./{}
 sudo apt-get clean
 rm ${frr_pkgs[@]}
 
+# Change GRUB options
+sudo sed -i -E 's/^GRUB_TIMEOUT=[0-9]+$/GRUB_TIMEOUT=0/' /etc/default/grub
 # Use traditional ifname such as eth0
 sudo sed -i 's/^GRUB_CMDLINE_LINUX=""$/GRUB_CMDLINE_LINUX="net.ifnames=0 biosdevname=0"/' /etc/default/grub
 echo 'GRUB_DISABLE_OS_PROBER=true' | sudo tee -a /etc/default/grub

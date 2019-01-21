@@ -23,6 +23,10 @@ sudo -E apt-get purge -yq linux-image-kvm ${old_kernel_modules}
 printf "%s\n" "${frr_pkgs[@]}" | xargs -I{} curl -LOs $base_url/{}
 printf "%s\n" "${frr_pkgs[@]}" | xargs -I{} sudo -E apt-get install -yq ./{}
 
+# Remove unused packages
+sudo apt-get purge -yq lxd lxd-client lxcfs cloud-init snapd lvm2
+sudo apt-get autoremove -yq --purge
+
 sudo apt-get clean
 rm ${frr_pkgs[@]}
 

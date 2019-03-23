@@ -30,8 +30,7 @@
       "type": "shell",
       "script": "scripts/install.sh",
       "environment_vars": [
-        "FRR_VERSION={{ user `frr_version` }}",
-        "FRR_PACKAGE_VERSION={{ user `frr_package_version` }}"
+        "FRRVER=frr-{{ user `frr_version` }}"
       ]
     }
   ],
@@ -44,8 +43,7 @@
     "memory": "512",
     "ssh_password": "frruser",
     "ssh_username": "frruser",
-    "frr_version": "6.0.2",
-    "frr_package_version": "0.ubuntu18.04.1",
+    "frr_version": "7",
     "build_version": "1"
   }
 }

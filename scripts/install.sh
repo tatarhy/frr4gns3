@@ -2,15 +2,13 @@
 
 set -Ceux
 
-base_url="https://github.com/FRRouting/frr/releases/download/frr-${FRR_VERSION}"
-frr_pkgs=(
-  "frr_${FRR_VERSION}-${FRR_PACKAGE_VERSION}_amd64.deb"
-  "frr-pythontools_${FRR_VERSION}-${FRR_PACKAGE_VERSION}_all.deb"
-  "frr-doc_${FRR_VERSION}-${FRR_PACKAGE_VERSION}_all.deb"
-  "frr-snmp_${FRR_VERSION}-${FRR_PACKAGE_VERSION}_amd64.deb"
-)
-
 export DEBIAN_FRONTEND=noninteractive
+
+# Add frr repository
+curl -s https://deb.frrouting.org/frr/keys.asc | sudo apt-key add -
+echo deb https://deb.frrouting.org/frr $(lsb_release -s -c) $FRRVER | sudo tee -a /etc/apt/sources.list.d/frr.list
+
+# Update repository
 sudo apt-get -q update
 
 # Change kernel flavor
@@ -20,15 +18,16 @@ sudo -E apt-get install -yq ${new_kernel_modules}
 sudo -E apt-get purge -yq linux-image-kvm ${old_kernel_modules}
 
 # Install frr packages
-printf "%s\n" "${frr_pkgs[@]}" | xargs -I{} curl -LOs $base_url/{}
-printf "%s\n" "${frr_pkgs[@]}" | xargs -I{} sudo -E apt-get install -yq ./{}
+sudo -E apt-get install -yq frr frr-pythontools frr-doc frr-snmp
+
+# Install utils
+sudo -E apt-get install -yq vim-tiny
 
 # Remove unused packages
 sudo apt-get purge -yq lxd lxd-client lxcfs cloud-init snapd lvm2
 sudo apt-get autoremove -yq --purge
 
 sudo apt-get clean
-rm ${frr_pkgs[@]}
 
 # Change GRUB options
 sudo sed -i -E 's/^GRUB_TIMEOUT=[0-9]+$/GRUB_TIMEOUT=0/' /etc/default/grub

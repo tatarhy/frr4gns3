@@ -21,10 +21,10 @@ sudo -E apt-get purge -yq linux-image-kvm ${old_kernel_modules}
 sudo -E apt-get install -yq frr frr-pythontools frr-doc frr-snmp
 
 # Install utils
-sudo -E apt-get install -yq vim-tiny
+sudo -E apt-get install -yq vim-tiny iputils-ping iputils-tracepath less telnet rsyslog
 
 # Remove unused packages
-sudo apt-get purge -yq lxd lxd-client lxcfs cloud-init snapd lvm2
+sudo apt-get purge -yq lxd lxd-client lxcfs cloud-init snapd lvm2 apport
 sudo apt-get autoremove -yq --purge
 
 sudo apt-get clean

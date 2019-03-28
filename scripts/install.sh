@@ -29,6 +29,11 @@ sudo apt-get autoremove -yq --purge
 
 sudo apt-get clean
 
+# Disable unused timers
+sudo systemctl disable apt-daily-upgrade.timer
+sudo systemctl disable apt-daily.timer
+sudo systemctl disable motd-news.timer
+
 # Change GRUB options
 sudo sed -i -E 's/^GRUB_TIMEOUT=[0-9]+$/GRUB_TIMEOUT=0/' /etc/default/grub
 # Use traditional ifname such as eth0
